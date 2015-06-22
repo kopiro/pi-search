@@ -1,4 +1,6 @@
 exports.find = function(to_find, callback) {
+	to_find = to_find.toString();
+
 	// Check if is a number
 	if (!/^\d+$/.test(to_find)) {
 		return callback({
@@ -11,22 +13,25 @@ exports.find = function(to_find, callback) {
 		start: 2
 	});
 
-	var old_buffer_length = -1 * (to_find.toString().length - 1);
-	var old_ending_buffer_str = '';
+	var global_index = 0;
+	var old_ending_buffer_str = new Array(to_find.length).join(' ');
 
 	stream
 	.on('data', function(buffer) {
 		var buffer_str = old_ending_buffer_str + buffer.toString();
 
-		var index_of = buffer_str.indexOf(process.argv[2]);
+		var index_of = buffer_str.indexOf(to_find);
 		if (index_of >= 0) {
+			var index = global_index + index_of - to_find.length + 1;
 			return callback({
 				success: true,
-				index: index_of
+				index: global_index + index_of,
+				message: 'Found "' + to_find + '" at index ' + index
 			});
 		}
 
-		old_ending_buffer_str = buffer_str.substr(old_buffer_length);
+		old_ending_buffer_str = buffer_str.substr(-to_find.length);
+		global_index += buffer.length;
 	})
 
 	.on('end', function() {
