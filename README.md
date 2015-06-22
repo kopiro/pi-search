@@ -1,10 +1,8 @@
 # π-search
 
-Utilities around π.
+## Utilities around π. Made for fun.
 
-Made for fun.
-
-## seq6-p0
+### seq6-p0
 
 Find a 6 digits number not present in the π sequence.
 
