@@ -3,7 +3,6 @@
 // Open the stream
 var stream = require('fs').createReadStream('pi-billion.txt', {
 	start: 2, // ignore "3."
-	bufferSize: 100 * 1024 * 1024 * 1024
 });
 
 // Check if the input is a number
