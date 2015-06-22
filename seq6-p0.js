@@ -9,7 +9,7 @@ var fs = require('fs');
 	π.find(number_str, function(status) {
 		if (status.error) {
 			fs.appendFileSync('seq6-p0.txt', number + "\n");
-			process.stdout.write('NOT FOUND');
+			process.stdout.write("NOT FOUND\n");
 		} else {
 			process.stdout.write(''+status.index+"\n");
 		}
