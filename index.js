@@ -1,3 +1,14 @@
+var fs = require('fs');
+
+var file_descriptor = fs.openSync('pi-billion.txt', 'r');
+
+exports.getStream = function() {
+	return fs.createReadStream(null, {
+		fd: file_descriptor,
+		start: 2
+	});
+};
+
 exports.find = function(to_find, callback) {
 	to_find = to_find.toString();
 
@@ -9,9 +20,7 @@ exports.find = function(to_find, callback) {
 		});
 	}
 
-	var stream = require('fs').createReadStream('pi-billion.txt', {
-		start: 2
-	});
+	var stream = exports.getStream();
 
 	var global_index = 0;
 	var old_ending_buffer_str = new Array(to_find.length).join(' ');
@@ -22,10 +31,12 @@ exports.find = function(to_find, callback) {
 
 		var index_of = buffer_str.indexOf(to_find);
 		if (index_of >= 0) {
+			stream.pause();
+
 			var index = global_index + index_of - to_find.length + 1;
 			return callback({
 				success: true,
-				index: global_index + index_of,
+				index: index,
 				message: 'Found "' + to_find + '" at index ' + index
 			});
 		}
