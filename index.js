@@ -5,7 +5,8 @@ var file_descriptor = fs.openSync('pi-billion.txt', 'r');
 exports.getStream = function() {
 	return fs.createReadStream(null, {
 		fd: file_descriptor,
-		start: 2
+		start: 2,
+		autoClose: false
 	});
 };
 

@@ -1,7 +1,8 @@
 var π = require('./index.js');
 var fs = require('fs');
 
-var N = 13;
+var N = 6;
+if (!fs.existsSync('seq-p0')) fs.mkdirSync('seq-p0');
 
 (function _next(number) {
 
@@ -10,8 +11,8 @@ var N = 13;
 
 	π.find(number_str, function(status) {
 		if (status.error) {
-			fs.appendFileSync('seq' + N + '-p0.txt', '' + number + "\n");
-			process.stdout.write("NOT FOUND\n");
+			fs.appendFileSync('seq-p0/' + N + '.txt', '' + number_str + "\n");
+			process.stdout.write("not found\n");
 		} else {
 			process.stdout.write(''+status.index+"\n");
 		}
